@@ -8,14 +8,13 @@ export default function useDraggable(el) {
       const startX = event.pageX - dx
       const startY = event.pageY - dy
 
-      const handleMouseMove = event => {
-        const newDx = event.pageX - startX
-        const newDy = event.pageY - startY
+      const handleMouseMove = e => {
+        const newDx = e.pageX - startX
+        const newDy = e.pageY - startY
         setOffset({ dx: newDx, dy: newDy })
       }
 
       document.addEventListener('mousemove', handleMouseMove)
-
       document.addEventListener(
         'mouseup',
         () => {
@@ -34,5 +33,28 @@ export default function useDraggable(el) {
 
   useEffect(() => {
     el.current.style.transform = `translate3d(${dx}px, ${dy}px, 0)`
+    el.current.style.transition = 'transform 300ms cubic-bezier(0, 0, 0.2, 1)'
   }, [dx, dy])
 }
+
+////////////////////////////
+
+const DraggableCard = ({ children }) => {
+  const cardRef = useRef(null)
+  useDraggable(cardRef)
+
+  return (
+    <div className="card" ref={cardRef}>
+      {children}
+    </div>
+  )
+}
+
+// Draggable Component 
+
+....
+  return (
+      <DraggableCard>
+        .....
+      </DraggableCard>
+  )
